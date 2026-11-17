@@ -46,7 +46,7 @@ By the end you will have:
 
 ## 🏗️ Architecture Diagram
 
-![Lab 03 architecture: vm-web-01 with a managed identity reads a secret from Key Vault and connects to Azure SQL Database; vm-db-01 is deleted](images/lab03-architecture.png)
+![Lab 03 architecture: vm-web-01 with a managed identity reads a secret from Key Vault and connects to Azure SQL Database; vm-db-01 is deleted](lab03-architecture.png)
 
 **How to read it:** (1) `vm-web-01` proves who it is with its Managed Identity and reads `SqlAdminPassword` from Key Vault. (2) It connects to `sqldb-app` using that password. The old `vm-db-01` is gone.
 
