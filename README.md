@@ -79,7 +79,7 @@ In a real migration you would move the data first, verify, then retire the old s
 
 ✅ **Verify:** `vm-db-01`, its disk and its NIC are gone; `vm-web-01` is still there.
 
-![rg-lab02-krish after the decommission](images/lab03-rg-lab02-after.png)
+![rg-lab02-krish after the decommission](lab03-rg-lab02-after.png)
 
 > **Heads-up:** the NSG that was created with `vm-db-01` (`vm-db-01-nsg`) is not in the delete list, so it stays behind. It is free but untidy. Delete it too.
 
@@ -108,7 +108,7 @@ In a real migration you would move the data first, verify, then retire the old s
 
 > **My run:** `sqldb-app` shows **Basic** tier and status **Online**.
 
-![sqldb-app overview: Online, Basic tier](images/lab03-sqldb-online.png)
+![sqldb-app overview: Online, Basic tier](lab03-sqldb-online.png)
 
 ### Phase 3: Deploy Azure Key Vault
 > Key Vault is a secure, audited store for secrets, keys and certificates. Applications fetch secrets at runtime instead of keeping them in config files or source control.
@@ -126,7 +126,7 @@ In a real migration you would move the data first, verify, then retire the old s
 
 **Grant yourself access first.** With RBAC nobody has data access by default, including the creator. Opening **Secrets** shows *"You are unauthorized to view these contents."* That is expected.
 
-![The RBAC lockout on a brand-new vault](images/lab03-rbac-lockout.png)
+![The RBAC lockout on a brand-new vault](lab03-rbac-lockout.png)
 
 1. Key Vault → **Access control (IAM)** → **+ Add → Add role assignment**.
 2. Role: **Key Vault Administrator**. Members: yourself (**User, group, or service principal**).
@@ -152,7 +152,7 @@ In a real migration you would move the data first, verify, then retire the old s
 
 ✅ **Verify:** an **Object (principal) ID** appears.
 
-![vm-web-01 Identity page: System assigned On with Object ID](images/lab03-managed-identity.png)
+![vm-web-01 Identity page: System assigned On with Object ID](lab03-managed-identity.png)
 
 **Part B: Grant the VM read access to the secret**
 1. `kv-lab03-krish` → **Access control (IAM)** → **+ Add → Add role assignment**.
@@ -162,9 +162,9 @@ In a real migration you would move the data first, verify, then retire the old s
 
 ✅ **Verify:** the **Role assignments** tab lists `vm-web-01`, role *Key Vault Secrets User*, type *VirtualMachines*.
 
-![Key Vault IAM: me as Administrator, vm-web-01 as Secrets User](images/lab03-iam-roles.png)
+![Key Vault IAM: me as Administrator, vm-web-01 as Secrets User](lab03-iam-roles.png)
 
-![rg-lab03-krish resources](images/lab03-rg-lab03.png)
+![rg-lab03-krish resources](lab03-rg-lab03.png)
 
 > If `vm-web-01` does not appear, confirm Part A was saved and wait about 60 seconds.
 
@@ -178,7 +178,7 @@ In a real migration you would move the data first, verify, then retire the old s
 
 ✅ **Verify:** a chart renders with a visible line and no errors. Near-zero activity is fine: the line proves the database is alive and monitored.
 
-![sqldb-app Metrics page showing Max CPU percentage](images/lab03-cpu-metrics.png)
+![sqldb-app Metrics page showing Max CPU percentage](lab03-cpu-metrics.png)
 
 
 ### Bonus: Prove the Managed Identity works
@@ -200,7 +200,7 @@ It runs four checks and never prints the secret value:
 
 If check 2 fails, read the message: an empty response or "could not reach" means the vault name is wrong; `Forbidden` means the role is missing or still propagating (wait 1–2 minutes).
 
-![Live test from vm-web-01: secret read, write blocked with 403, SQL port reachable](images/lab03-verify-pass.png)
+![Live test from vm-web-01: secret read, write blocked with 403, SQL port reachable](lab03-verify-pass.png)
 
 > The commands are the same as the script's checks. If you are using a differently named vault (mine is `rg-lab03-krish`), pass your real vault name as the first argument.
 
